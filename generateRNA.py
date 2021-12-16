@@ -18,7 +18,7 @@ import operator
 
 
 
-SGP = "L' *NCMS000/enseignement/enseignement de les *NCFP000/lettres/lettre *VMIP3S0/est/être à la *NCFS000/littérature/littérature ce_que la *VMIP3S0/est/être à l' *NCMS000/érotisme/érotisme ."
+SGP = "Il n' y a pas_de *NCFS000/littérature/littérature sans *NCMS000/péché/péché ."
 #On recupère le les position qui existe de la SGP
 res = re.findall(r'[*]\w+[/]\w+[/]\w+', SGP, flags=re.IGNORECASE)
 
@@ -246,6 +246,20 @@ def mot_candidat_suivant(dict_mots_proches, dict_mots_eloigne):
             print(mot_candidat)
 
     return mot_candidat
+
+# Cette fonction permet de regrouper les phrases générées selon leur Query
+def phrase_generees(phrase,query, dictiontionnaire_phrases):
+    dictiontionnaire_phrases[phrase] = query
+
+# Cette fonction a pour but de générer le fichier en utf8 qui contientedra les 30 phrases générées
+def generateur_de_fichier_de_phrase(nomFIchier, dictiontionnaire_phrases):
+    with open(nomFIchier, "w") as fichier:
+        for key in dictiontionnaire_phrases:
+            query = dictiontionnaire_phrases[key]
+            mot = key + "\t" + query +"\n"
+            fichier.write(mot)
+
+    
 
 
 print("--------------------------------------------------------------")
