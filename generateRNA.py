@@ -18,7 +18,7 @@ import operator
 
 
 
-SGP = "*VMIP3S0/est/être la plus *AQ0FS00/forte/fort"
+SGP = "L' *NCMS000/enseignement/enseignement de les *NCFP000/lettres/lettre *VMIP3S0/est/être à la *NCFS000/littérature/littérature ce_que la *VMIP3S0/est/être à l' *NCMS000/érotisme/érotisme ."
 #On recupère le les position qui existe de la SGP
 res = re.findall(r'[*]\w+[/]\w+[/]\w+', SGP, flags=re.IGNORECASE)
 
@@ -44,19 +44,19 @@ print(mot_2)
 
 
 # tableau des POS qui exstent dans la SGP
-tableax_POS = []
+tableaux_POS = []
 # Tableau des /mots  qui existent dans la SGP
-tableax_mots = []
+tableaux_mots = []
 
-[tableax_POS.append(res[i].split('/')[0].replace("*","")) for i  in range(len(res)) ]
+[tableaux_POS.append(res[i].split('/')[0].replace("*","")) for i  in range(len(res)) ]
 
-[tableax_mots.append(res[i].split('/')[1].replace("*","")) for i  in range(len(res)) ]
-
-
+[tableaux_mots.append(res[i].split('/')[1].replace("*","")) for i  in range(len(res)) ]
 
 
-print(tableax_POS)
-print(tableax_mots)
+
+
+print(tableaux_POS)
+print(tableaux_mots)
 
 #Lire  le data du 
 path_table_asociative= "/home/aissam/Bureau/CERI M2/S9/Application D'innovation/TORESS/Ressources/TableAssociative"
@@ -153,10 +153,7 @@ for row in dictionnaire_table_asociative:
 #print((dictionnaire_des_pos['PP2CSN0']))
 
 
-
-
 # Ici on va construire notre structure de données pour la table Embedding
-
 # dictionnaire_des_mot_embiding  Dictionnaire qui  contientedra pour chaque mot son vecteur de  100 dimesnion  
 dictionnaire_des_mot_embiding = dict()
 
@@ -174,6 +171,9 @@ for row in dictionnaire_table_embidding:
 print(dictionnaire_table_embidding[0])
 
 print(dictionnaire_des_mot_embiding['de'])
+
+#print(dictionnaire_des_mot_embiding['gynécologie'])
+
 
 
 # Cette fonction permet de calculer la sosinus similarité entre un mot et/ou Query avec les autres mots qui composent le POS 
@@ -255,25 +255,24 @@ print("--------------------------------------------------------------")
 
 
 print("----------------------------------------------------------")
-while TRUE:
 
-    SGP = "*VMIP3S0/est/être la plus *AQ0FS00/forte/fort"
-    #On demande de saisir la query correspondante
-    query = input("Entrer la query : ")
+# On demande de saisir la query correspondante
+query = input("Entrer la query : ")
 
-    vecteur_query=dictionnaire_des_mot_embiding[query]
+vecteur_query=dictionnaire_des_mot_embiding[query]
 
-    tableau_mots_candidat=[]
+tableau_mots_candidat=[]
+
+for i in range(len(res)):
 
     # On calcule le produit  scalaire entre les mots POSs et le Query  afin de prendre le mot le plus proche
-
     dictionnaire_mot_proche = dict()
 
     print("--------------- Recherche des mots proches -------------------\n")
     print("---------------- Calcul des distances ------------------------\n")
 
-    # Chercher tout les mots proche de la query
-    dictionnaire_mot_proche = recherche_mots_proches_de_query(pos_1, query)
+    #Chercher tout les mots proche de la query
+    dictionnaire_mot_proche = recherche_mots_proches_de_query(tableaux_POS[i], query)
     #trier les mots proches selon l'ordre croissant
     sortdictionnaire_mot_prochedict = sorted(dictionnaire_mot_proche.items(), key=lambda x:x[1],reverse=True)
 
@@ -289,8 +288,8 @@ while TRUE:
 
     # Normalement il suffit de passer par le dictionnaire  dictionnaire_mot_proche par ce que
     # il contient que les mots qui ont des vecteurs dans le fichier Embidding
-    
-    dictionnaire_mot_eloigner = recherche_mots_proches_de_mot(pos_1,mot_1)
+
+    dictionnaire_mot_eloigner = recherche_mots_proches_de_mot(tableaux_POS[i],tableaux_mots[i])
 
     # Trier les mots eloigné selon l'ordre décroissant 
     sortdictionnaire_mot_eloignee = sorted(dictionnaire_mot_eloigner.items(), key=lambda x:x[1], reverse=True)
@@ -327,7 +326,7 @@ while TRUE:
     print("---------------- le mot à choisir est ---------------")
     mot_choisit = mot_candidat(dictionnaire_mot_proche, dictionnaire_mot_eloigner)
     print(mot_choisit)
-    
+
     tableau_mots_candidat.append(mot_choisit)
 
     print(type(dictionnaire_mot_proche))
@@ -338,7 +337,7 @@ while TRUE:
 
     print("--------------------------------- Recherche Pour le Mot Suivant -------------------------------")
 
-    
+""" 
     # On calcule le produit  scalaire entre les mots POSs et le Query  afin de prendre le mot le plus proche
 
     dictionnaire_mot_proche = dict()
@@ -362,7 +361,7 @@ while TRUE:
 
     # Normalement il suffit de passer par le dictionnaire  dictionnaire_mot_proche par ce que
     # il contient que les mots qui ont des vecteurs dans le fichier Embidding
-    
+
     dictionnaire_mot_eloigner = recherche_mots_proches_de_mot(pos_2,mot_2)
 
     # Trier les mots eloigné selon l'ordre décroissant 
@@ -395,21 +394,21 @@ while TRUE:
         if i>=15:
             break
         i+=1
-    
+
     mot_choisit = mot_candidat(dictionnaire_mot_proche, dictionnaire_mot_eloigner)
     print(mot_choisit)
 
-    tableau_mots_candidat.append(mot_choisit)
+    tableau_mots_candidat.append(mot_choisit) """
 
-    for i in range(len(tableau_mots_candidat)):
-        SGP = SGP.replace(res[i],tableau_mots_candidat[i])
+# Remplacer les POS calculer dans la SGP
+for i in range(len(tableau_mots_candidat)):
+    SGP = SGP.replace(res[i],tableau_mots_candidat[i])
 
-    print("--------------- Voici la phrase final ------------------\n")
-    print(SGP)
+print("--------------- Voici la phrase finale ------------------\n")
+print(SGP)
 
 
 
-# Poue le mot suivant pensé a rajouter les 3 params : motPrécedent + query + mmote proche et  éloigné,
-# faire la soustraction deux fois ; 
-# la déffirence entre les   distances cosinus similarité  distance(mot proche - mot éloigné) - distance (Query))
-
+    # Poue le mot suivant pensé a rajouter les 3 params : motPrécedent + query + mmote proche et  éloigné,
+    # faire la soustraction deux fois ; 
+    # la déffirence entre les   distances cosinus similarité  distance(mot proche - mot éloigné) - distance (Query))
