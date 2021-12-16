@@ -271,86 +271,114 @@ print("--------------------------------------------------------------")
 print("----------------------------------------------------------")
 
 # On demande de saisir la query correspondante
-query = input("Entrer la query : ")
+#query = input("Entrer la query : ")
 
-vecteur_query=dictionnaire_des_mot_embiding[query]
-
-tableau_mots_candidat=[]
-
-for i in range(len(res)):
-
-    # On calcule le produit  scalaire entre les mots POSs et le Query  afin de prendre le mot le plus proche
-    dictionnaire_mot_proche = dict()
-
-    print("--------------- Recherche des mots proches -------------------\n")
-    print("---------------- Calcul des distances ------------------------\n")
-
-    #Chercher tout les mots proche de la query
-    dictionnaire_mot_proche = recherche_mots_proches_de_query(tableaux_POS[i], query)
-    #trier les mots proches selon l'ordre croissant
-    sortdictionnaire_mot_prochedict = sorted(dictionnaire_mot_proche.items(), key=lambda x:x[1],reverse=True)
-
-    dictionnaire_mot_proche = dict(sortdictionnaire_mot_prochedict)
-    if query in dictionnaire_mot_proche:
-        del dictionnaire_mot_proche[query]
+#vecteur_query=dictionnaire_des_mot_embiding[query]
 
 
-    print("--------------- Recherche des mots eloignés -------------------\n")
-    print("------------------- Calcul des distances -----------------------\n")
-
-    dictionnaire_mot_eloigner = dict()
-
-    # Normalement il suffit de passer par le dictionnaire  dictionnaire_mot_proche par ce que
-    # il contient que les mots qui ont des vecteurs dans le fichier Embidding
-
-    dictionnaire_mot_eloigner = recherche_mots_proches_de_mot(tableaux_POS[i],tableaux_mots[i])
-
-    # Trier les mots eloigné selon l'ordre décroissant 
-    sortdictionnaire_mot_eloignee = sorted(dictionnaire_mot_eloigner.items(), key=lambda x:x[1], reverse=True)
-    dictionnaire_mot_eloigner = dict(sortdictionnaire_mot_eloignee)
-    if query in dictionnaire_mot_eloigner:
-        del dictionnaire_mot_eloigner[query]
+dictionnaire_des_phrase = dict()
+tableau_des_query = ['tristesse', 'amour', 'joie', 'haine', 'bleu']
 
 
-    print("\n---------------les mots proches------------------ \n")
-    # On affiche les mot proches et les mot éloignées
-    i=0
-    for el in dictionnaire_mot_proche:
+
+for query in tableau_des_query:
+    
+    tableau_mots_candidat=[]
+    phrase  = SGP
+    print("****************************************************")
+    print(phrase)
+    print("****************************************************")
+
+    for i in range(len(res)):
         
-        print(el + "  "+ str(dictionnaire_mot_proche[el]))
+        # On calcule le produit  scalaire entre les mots POSs et le Query  afin de prendre le mot le plus proche
+        dictionnaire_mot_proche = dict()
 
-        if i>=15:
-            break
-        i+=1
+        print("--------------- Recherche des mots proches -------------------\n")
+        print("---------------- Calcul des distances ------------------------\n")
 
+        #Chercher tout les mots proche de la query
+        dictionnaire_mot_proche = recherche_mots_proches_de_query(tableaux_POS[i], query)
+        #trier les mots proches selon l'ordre croissant
+        sortdictionnaire_mot_prochedict = sorted(dictionnaire_mot_proche.items(), key=lambda x:x[1],reverse=True)
 
-    print("\n---------------les mots éloignés------------------ \n")
-
-    # On affiche les mot proches et les mot éloignées
-    i=0
-    for el in dictionnaire_mot_eloigner:
-        
-        print(el + "  "+ str(dictionnaire_mot_eloigner[el]) )
-
-        if i>=15:
-            break
-        i+=1
-
-    print("----------------------------------------------------")
-    print("---------------- le mot à choisir est ---------------")
-    mot_choisit = mot_candidat(dictionnaire_mot_proche, dictionnaire_mot_eloigner)
-    print(mot_choisit)
-
-    tableau_mots_candidat.append(mot_choisit)
-
-    print(type(dictionnaire_mot_proche))
-
-    print(type(dictionnaire_des_mot_embiding))
+        dictionnaire_mot_proche = dict(sortdictionnaire_mot_prochedict)
+        if query in dictionnaire_mot_proche:
+            del dictionnaire_mot_proche[query]
 
 
+        print("--------------- Recherche des mots eloignés -------------------\n")
+        print("------------------- Calcul des distances -----------------------\n")
 
-    print("--------------------------------- Recherche Pour le Mot Suivant -------------------------------")
+        dictionnaire_mot_eloigner = dict()
 
+        # Normalement il suffit de passer par le dictionnaire  dictionnaire_mot_proche par ce que
+        # il contient que les mots qui ont des vecteurs dans le fichier Embidding
+
+        dictionnaire_mot_eloigner = recherche_mots_proches_de_mot(tableaux_POS[i],tableaux_mots[i])
+
+        # Trier les mots eloigné selon l'ordre décroissant 
+        sortdictionnaire_mot_eloignee = sorted(dictionnaire_mot_eloigner.items(), key=lambda x:x[1], reverse=True)
+        dictionnaire_mot_eloigner = dict(sortdictionnaire_mot_eloignee)
+        if query in dictionnaire_mot_eloigner:
+            del dictionnaire_mot_eloigner[query]
+
+
+        print("\n---------------les mots proches------------------ \n")
+        # On affiche les mot proches et les mot éloignées
+        i=0
+        for el in dictionnaire_mot_proche:
+            
+            print(el + "  "+ str(dictionnaire_mot_proche[el]))
+
+            if i>=15:
+                break
+            i+=1
+
+
+        print("\n---------------les mots éloignés------------------ \n")
+
+        # On affiche les mot proches et les mot éloignées
+        i=0
+        for el in dictionnaire_mot_eloigner:
+            
+            print(el + "  "+ str(dictionnaire_mot_eloigner[el]) )
+
+            if i>=15:
+                break
+            i+=1
+
+        print("----------------------------------------------------")
+        print("---------------- le mot à choisir est ---------------")
+        mot_choisit = mot_candidat(dictionnaire_mot_proche, dictionnaire_mot_eloigner)
+        print(mot_choisit)
+
+        tableau_mots_candidat.append(mot_choisit)
+
+        print(type(dictionnaire_mot_proche))
+
+        print(type(dictionnaire_des_mot_embiding))
+
+
+
+        print("--------------------------------- Recherche Pour le Mot Suivant -------------------------------")
+    
+
+    # Remplacer les POS calculer dans la SGP
+    j=0
+    for j in range(len(tableaux_POS)):
+        phrase = phrase.replace(res[j],tableau_mots_candidat[j])
+        print("\n yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy  {}".format(tableau_mots_candidat[j]))
+    
+    
+    print("--------------- Voici la phrase finale ------------------\n")
+    print(phrase)
+    # Ajouter la phrase au 
+    phrase_generees(phrase,query,dictionnaire_des_phrase)
+    phrase = SGP
+
+
+generateur_de_fichier_de_phrase("fihcierDesPhrase",dictionnaire_des_phrase)
 """ 
     # On calcule le produit  scalaire entre les mots POSs et le Query  afin de prendre le mot le plus proche
 
@@ -414,12 +442,9 @@ for i in range(len(res)):
 
     tableau_mots_candidat.append(mot_choisit) """
 
-# Remplacer les POS calculer dans la SGP
-for i in range(len(tableau_mots_candidat)):
-    SGP = SGP.replace(res[i],tableau_mots_candidat[i])
 
-print("--------------- Voici la phrase finale ------------------\n")
-print(SGP)
+
+
 
 
 
