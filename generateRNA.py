@@ -18,7 +18,7 @@ import operator
 
 
 
-SGP = "Il n' y a pas_de *NCFS000/littérature/littérature sans *NCMS000/péché/péché ."
+SGP = "Il n' y a ni *AQ0FS00/morale/moral ni *NCFS000/responsabilité/responsabilité en *NCFS000/littérature/littérature ."
 #On recupère le les position qui existe de la SGP
 res = re.findall(r'[*]\w+[/]\w+[/]\w+', SGP, flags=re.IGNORECASE)
 
@@ -282,7 +282,7 @@ tableau_des_query = ['tristesse', 'amour', 'joie', 'haine', 'bleu']
 
 
 for query in tableau_des_query:
-    
+
     tableau_mots_candidat=[]
     phrase  = SGP
     print("****************************************************")
@@ -322,6 +322,10 @@ for query in tableau_des_query:
         dictionnaire_mot_eloigner = dict(sortdictionnaire_mot_eloignee)
         if query in dictionnaire_mot_eloigner:
             del dictionnaire_mot_eloigner[query]
+        
+        if tableaux_mots[i] in dictionnaire_mot_eloigner:
+            del dictionnaire_mot_proche[tableaux_mots[i]]
+            del dictionnaire_mot_eloigner[tableaux_mots[i]]
 
 
         print("\n---------------les mots proches------------------ \n")
