@@ -1,3 +1,9 @@
+Ce projet est n notre travail réaliser sur  la génération de phrases au moyen d'énergie textuelle,  plus précisément  la génération de phrases littéraires.  Cette génération se comporte sur deux modèles  : générateur baseline de phrases par modèle de langage bigramme (ML-2) et trigramme (ML-3), ensuite le générateur de phrases par apprentissage neuronal (RNA) et un contexte (query). Notre travail est basé sur des ressources disponibles (corpus littéraire, table asociative, embeddings littéraires, baseline et ML). 
+
+Nous nous sommes basés sur une évaluation manuelle pour évaluer la grammaticalité et la littéracité  des phrases générées. 
+
+
+
 # Application-Innovation-Defi4
 Génération de phrases au moyen d'énergie textuelle (L.-G. Moreno &amp; J.-M. Torres)
 
