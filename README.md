@@ -22,3 +22,9 @@ Le fichier data.dat est un échantiant pour tester le code
 Il suffit que de mettre data.dat dans le même répertoire que le ficher courrant (generateurDePhrases.py)
 Puis éxecuter ce dernier pour avoir des phrases générées (commade : python3.8 generateurDePhrases.py)
 
+## Générateur de phrases : modèle neuronal RNA
+
+
+le code source dans le fichier generateRNA.py permet de générer des phrases à partir des SGP : Structures Grammaticales Partiellement Vides données
+
+utilisation python3.8  generateRNA.py
